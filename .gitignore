@@ -1,5 +1,8 @@
+.installed.cfg
 bin/*
 build/*
 coverage/*
 develop-eggs/*
+eggs/*
 dist/*
+src/*.egg-info

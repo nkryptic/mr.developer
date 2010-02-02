@@ -1,4 +1,4 @@
-from mr.developer.common import memoize, WorkingCopies, Config
+from mr.developer.common import memoize, WorkingCopies, Config, workingcopytypes
 import logging
 import os
 import sys
@@ -40,7 +40,12 @@ class Extension(object):
             info = section[name].split()
             kind = info[0]
             url = info[1]
-
+            
+            if kind not in workingcopytypes.keys():
+                # raise ValueError("Unknown repository type '%s'." % kind)
+                logger.warn("Unknown repository type '%s'." % kind)
+                continue
+            
             for rewrite in self.get_config().rewrites:
                 if len(rewrite) == 2 and url.startswith(rewrite[0]):
                     url = "%s%s" % (rewrite[1], url[len(rewrite[0]):])

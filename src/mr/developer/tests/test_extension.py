@@ -209,6 +209,16 @@ class TestExtensionClass(TestCase):
             'pkg.foo': 'git dummy://foo/trunk rev=456ad138 =foo',
         })
         self.assertRaises(ValueError, self.extension.get_sources)
+    
+    def testUnkownVcsSkipped(self):
+        self.buildout['sources'].update({
+            'pkg.bar': 'svn dummy://foo/trunk',
+            'kill.bill': 'unknown dummy://kill/bill/trunk',
+        })
+        sources = self.extension.get_sources()
+        self.failIf('kill.bill' in sources.keys())
+        self.failUnless('pkg.bar' in sources.keys())
+    
 
 
 class TestExtension(TestCase):
